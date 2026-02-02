@@ -37,32 +37,49 @@ var
   CurrencyPair: TJSONPair;
 
 begin
+  Pais.Nome:='Sem Dados';
+  Pais.NomeOficial:='Sem Dados';
+  Pais.Capital:='Sem Dados';
+  Pais.Regiao:='Sem Dados';
+  Pais.Populacao:='Sem Dados';
+  Pais.Moeda:='Sem Dados';
+
+
   JsonArray:= TJSONObject.ParseJSONValue(dtmServiceApi.RESTResponse.Content) as TJSONArray;
 
   try
     JsonObj:= JsonArray.Items[0] as TJSONObject;
 
     // --------- Nome do país -----------
+   // if Assigned(JsonObj.GetValue('name') as TJSONObject) then
     NameObj:= JsonObj.GetValue('name') as TJSONObject;
 
     Pais.Nome:=  NameObj.GetValue('common').Value;
     Pais.NomeOficial:= NameObj.GetValue('official').Value;
 
     // --------- Capital -----------
+    if Assigned((JsonObj.GetValue('capital') as TJSONArray)) then
     Pais.Capital:= (JsonObj.GetValue('capital') as TJSONArray).Items[0].Value;
 
+
     // --------- Região -----------
+    if Assigned(JsonObj.GetValue('region')) then
     Pais.Regiao:= JsonObj.GetValue('region').Value;
 
     // --------- População --------------
+    if Assigned(JsonObj.GetValue('population')) then
     Pais.Populacao:= JsonObj.GetValue('population').Value;
 
-     // ---------- Moeda  -----------
+    // ---------- Moeda  -----------
     CurrencyObj:= JsonObj.GetValue('currencies') as TJSONObject;
+
+    if Assigned(CurrencyObj) then
+    begin
     CurrencyPair:= CurrencyObj.Pairs[0];
     CurrencyData:= CurrencyPair.JsonValue as TJSONObject;
 
     Pais.Moeda:= CurrencyData.GetValue('name').Value;
+    end;
 
     // ------- Imagem -----------------
     BandeiraObj:= JsonObj.GetValue('flags') as TJSONObject;
