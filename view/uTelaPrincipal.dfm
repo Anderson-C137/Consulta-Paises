@@ -359,6 +359,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       '710 '#193'frica do Sul'
       '716 Zimbabwe'
       '724 Espanha'
+      '729 Sud'#227'o'
       '732 Saara Ocidental'
       '740 Suriname'
       '744 Svalbard e Jan Mayen'
